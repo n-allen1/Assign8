@@ -6,114 +6,117 @@
 //  Created by Noah Allen (z1888906)
 //
 //***************************************************************************
+#include <iostream>
+#include <string>
+#include <cctype>
+#include "mystack.h"
+#include "inpost.h"
 
-#include"inpost.h"
-#include"mystack.h"
 
-/**
- * @brief The convert function takes a const string infix expression and returns a postfix expression
- * 
- * @param infix 
- * @return std::string a postfix expression
- */
+//includes definition.             //Same as assignment 8. 
 std::string convert(const std::string& infix)
 {
-    mystack stack;
-    stack.reserve(10);
-    
-    std::string output;
-    size_t i = 0;
-    
-    while (i < infix.size())
+    std::string postfix;
+    mystack s;
+    int index = 0;
+
+    while ( index < (int)infix.length())
     {
-        if (isalpha(infix[i]))
+        if(islower(infix[index]))
         {
-            output += infix[i];
-            output += ' ';
-            i++;
+                postfix += infix[index];
+                postfix += ' ';
+                index++;
         }
-        else if (isdigit(infix[i]))
+	    else if(isdigit(infix[index]))
         {
-            while (isdigit(infix[i]))
+ 
+            while(isdigit(infix[index]))
             {
-                output += infix[i];
-                i++;
+                postfix += infix[index];
+                index++;
             }
-
-            output += ' ';
+  
+            postfix += ' ';
         }
-        else if (infix[i] == ' ')
+        else if(infix[index] == ' ')
         {
-            i++;
+            index++;
         }
-        else if (infix[i] == '(')
+        else if(infix[index] == '(')
         {
-            stack.push(infix[i]);
-            i++;
+            s.push(infix[index]);
+            index++;
         }
-        else if (infix[i] == ')')
+        else if(infix[index] == ')')
         {
-            while (!stack.empty() && stack.top() != '(')
+  
+            //this loop will check to make sure that the stack isn't empty
+            //and that it is not a left parenthesis
+            while(!s.empty() && s.top() != '(')
             {
-                output += stack.top();
-                output += ' ';
-                stack.pop();
+                //will append the top character 
+                //then proceed to pop the stack
+                postfix += s.top();
+                postfix += ' ';
+                s.pop();
             }
-
-            if (!stack.empty())
-                stack.pop();
-
-            i++;
+            
+            if(!s.empty())
+            {
+                s.pop();
+            }
+            
+            index++;
         }
         else
         {
-            while (!stack.empty() && precedence(infix[i]) <=
-                precedence(stack.top()))
+            //thing is an operator
+            while(!s.empty() && precedence(infix[index]) <= precedence(s.top()))
             {
-                output += stack.top();
-                output += ' ';
-                stack.pop();
+                //gets top item and adds to postfix string
+                postfix += s.top();
+                postfix += ' ';
+                s.pop();
             }
-            stack.push(infix[i]);
-            i++;
+
+            s.push(infix[index]);
+            index++;
         }
     }
-    
-    while (!stack.empty())
+        //wrap up the loose ends
+    while(!s.empty())
     {
-        output += stack.top();
-        output += ' ';
-        stack.pop();
+        postfix += s.top();
+        postfix += ' ';
+        s.pop();
     }
+
+    postfix.pop_back();
     
-    output.pop_back();
+    return postfix;
+ }
 
-    return output;
-}
-
-/**
- * @brief Checks the precedence of operators
- * 
- * @param x 
- * @return int 
- */
-int precedence(char x)
-{
-    switch(x)
-    {
-        case '+':
-        case '-':
-            return 1;
-            
-        case '*':
-        case '/':
-            return 2;
-            
-        case '^':
-        case '~':
-            return 3;
-            
-        default : 
-            return 0;
-    }
-}
+ int precedence(char op)
+ {
+ 
+         switch (op)
+         {
+                 case '~':
+                 case '^':
+                    return 3;
+                    break;
+                 case '*':
+                 case '/':
+                     return 2;
+                     break;;
+                 case '+':
+                 case '-':
+                     return 1;
+                     break;
+                 default:
+                     return 0;
+ 
+         }
+ 
+ }

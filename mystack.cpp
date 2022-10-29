@@ -6,140 +6,127 @@
 //  Created by Noah Allen (z1888906)
 //
 //***************************************************************************
-
+#include <iostream> 
+#include <string> 
+#include <cstdlib>
 #include "mystack.h"
 
-//default constructor
-mystack::mystack()
-{
-    stk_size = 0; // Number of items currently stored in the stack.
-    stk_top = nullptr; // Stack top pointer. Pointer to the top (first) node in the linked list.
-    //stackCapacity = 0;
-    //stk = nullptr;
-}
+using namespace std;
 
-//copy constructor
+//the copy constructor.initializes new stack object to the same.
 mystack::mystack(const mystack& x)
 {
-    // Set the new stack object's list to empty
-    stk_top = nullptr;
-    
-    // Copy the other stack's size
-    stk_size = x.stk_size;
-
-    // Copy the other stack's linked list
-    clone(x);
+	//top is set to nullptr. 
+	stack_top = nullptr;
+	
+	//new stack size equals size of object x. 
+	stack_size = x.stack_size;
+	
+	clone(x); 
+		
 }
 
-//destructor
 mystack::~mystack()
 {
-    delete[] stk;
+	//destructor clears member function. 
+	delete stack_top;//destructor can simply call the clear(). 
+
 }
 
-//overloaded copy assignment operator
+//overloaded copy assignment operator. 
 mystack& mystack::operator=(const mystack& x)
 {
-    if (this != &x)
-    {
-        delete[] stk;
+	
+	if (this != &x)
+	{// Make the left stack object empty
+		clear();
         
-        stackCapacity = x.stackCapacity;
-        stk_size = x.stk_size;
-        
-        if (stackCapacity > 0)
-        {
-            stk = new char[stackCapacity];
-        }
-        else
-        {
-            stk = nullptr;
+        // Copy the other stack's size
+		stack_size = x.stack_size;
+
+        // Copy the other stack's linked list
+		clone(x);
         }
         
-        for (size_t i = 0; i < stk_size; i++)
-        {
-            stk[i] = x.stk[i];
-        }
-    }
     return *this;
 }
 
-
-/*//this function return the stack capacity
-size_t mystack::capacity() const
+//returns size
+size_t mystack::size()const
 {
-    return stackCapacity;
-}*/
 
-//this function return the stack size
-size_t mystack::size() const
-{
-    return stk_size;
+	return stack_size; 
+
 }
-
-//this function return true if the stack size is 0 Otherwise, return false.
+\
+//returns true if stack size is 0. 
 bool mystack::empty() const
 {
-    if (stk_size == 0) return true;
-    return false;
+
+	return (stack_size == 0); 
 }
 
-//this function set the stack size back to 0.
+//deletes nodes in stacks linked list, setting stack size to 0. 
 void mystack::clear()
 {
-    stk_size = 0;
+	while(!empty())
+	{
+		pop(); 
+	}
 }
 
-/*//this function modifies an object's stack capacity
-void mystack::reserve(size_t n)
+//returns value in top node of stack. 
+const int& mystack::top()const
 {
-    if (n < stk_size || n == stackCapacity)
-        return;
+
+	return stack_top-> value;
+
+}
+
+//pushes integer value onto top of the stack. 
+void mystack::push(int value)
+{
+	//Allocate a new stack node, new_node
     
-    stackCapacity = n;
-    char *tmp = new char[n];
-    for (size_t i = 0; i < stk_size; i++)
-    {
-        tmp[i] = stk[i];
-    }
+    node* new_node = new node(value, stack_top);
     
-    delete[] stk;
-    stk = tmp;
-}*/
+    stack_top = new_node;
+    
+    stack_size = stack_size + 1;
 
-//this function return the top item in the stack
-const char& mystack::top() const
-{
-    return stk[stk_size - 1];
 }
 
-//this function push the character value onto the top of the stack
-void mystack::push(char value)
-{
-    if (stk_size == stackCapacity)
-    {
-        if (stackCapacity == 0)
-        {
-            reserve(1);
-        }
-        else
-        {
-            reserve(stackCapacity * 2);
-        }
-    }
-    stk[stk_size] = value;
-    stk_size++;
-}
-
-//this function pop the top item off of the stack by decreasing the stack size by 1
+//pop the topp item off of the stack and deletes node. 
 void mystack::pop()
 {
-    stk_size--;
+
+    node* delete_node = stack_top;
+    stack_top = stack_top->next;
+    
+    delete delete_node;
+    
+    stack_size = stack_size - 1;
+
 }
 
-void clone(node *&x)
+void mystack:: clone(const mystack& x)
 {
-    last = nullptr;
-    ptr = x.stk_top;
+	int value = 0; 
 
+	node* last = nullptr; 
+	node* ptr = x.stack_top; 
+	
+	while(ptr != nullptr)
+	{
+		node* new_node = new node (value, stack_top);
+		new_node->value = ptr-> value;
+
+		if(last == nullptr)
+			stack_top = new_node;
+		else
+			last->next = new_node;
+
+		last = new_node;
+		ptr = ptr ->next;
+	}
 }

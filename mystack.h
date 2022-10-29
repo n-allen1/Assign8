@@ -36,7 +36,6 @@ class mystack
 	public:
 		mystack()= default; 
 		mystack(const mystack& x);
-		
 		~mystack();
 		mystack& operator= (const mystack& x);
 		size_t size()const; 

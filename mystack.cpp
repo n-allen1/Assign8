@@ -46,7 +46,7 @@ mystack& mystack::operator=(const mystack& x)
 
         // Copy the other stack's linked list
 		clone(x);
-        }
+    }
         
     return *this;
 }
@@ -58,7 +58,7 @@ size_t mystack::size()const
 	return stack_size; 
 
 }
-\
+
 //returns true if stack size is 0. 
 bool mystack::empty() const
 {
@@ -87,7 +87,6 @@ const int& mystack::top()const
 void mystack::push(int value)
 {
 	//Allocate a new stack node, new_node
-    
     node* new_node = new node(value, stack_top);
     
     stack_top = new_node;
@@ -99,7 +98,6 @@ void mystack::push(int value)
 //pop the topp item off of the stack and deletes node. 
 void mystack::pop()
 {
-
     node* delete_node = stack_top;
     stack_top = stack_top->next;
     
@@ -109,7 +107,7 @@ void mystack::pop()
 
 }
 
-void mystack:: clone(const mystack& x)
+void mystack::clone(const mystack& x)
 {
 	int value = 0; 
 

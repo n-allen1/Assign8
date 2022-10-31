@@ -26,13 +26,13 @@ struct node
 //Mystack Class
 class mystack
 {
-	//private data
+	
 	private: 
 		node* stack_top = nullptr;
 		size_t stack_size = 0;
 	
                 void clone(const mystack&);
-	//member fucntions. 
+
 	public:
 		mystack()= default; 
 		mystack(const mystack& x);

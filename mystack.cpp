@@ -13,7 +13,7 @@
 
 using namespace std;
 
-//the copy constructor.initializes new stack object to the same.
+//copy constructor
 mystack::mystack(const mystack& x)
 {
 	//top is set to nullptr. 
@@ -26,10 +26,11 @@ mystack::mystack(const mystack& x)
 		
 }
 
+//destructor
 mystack::~mystack()
 {
-	//destructor clears member function. 
-	delete stack_top;//destructor can simply call the clear(). 
+ 
+	delete stack_top; 
 
 }
 
@@ -38,7 +39,8 @@ mystack& mystack::operator=(const mystack& x)
 {
 	
 	if (this != &x)
-	{// Make the left stack object empty
+	{
+		// Make the left stack object empty
 		clear();
         
         // Copy the other stack's size
@@ -59,11 +61,12 @@ size_t mystack::size()const
 
 }
 
-//returns true if stack size is 0. 
+//returns true if stack size is 0. Otherwise, return false.
 bool mystack::empty() const
 {
 
-	return (stack_size == 0); 
+	return (stack_size == 0);
+	 
 }
 
 //deletes nodes in stacks linked list, setting stack size to 0. 
@@ -75,7 +78,7 @@ void mystack::clear()
 	}
 }
 
-//returns value in top node of stack. 
+//this function return the top item in the stack 
 const int& mystack::top()const
 {
 
@@ -83,7 +86,7 @@ const int& mystack::top()const
 
 }
 
-//pushes integer value onto top of the stack. 
+//this function push the character value onto the top of the stack
 void mystack::push(int value)
 {
 	//Allocate a new stack node, new_node
@@ -95,7 +98,7 @@ void mystack::push(int value)
 
 }
 
-//pop the topp item off of the stack and deletes node. 
+//pop the top item off of the stack and deletes node. 
 void mystack::pop()
 {
     node* delete_node = stack_top;
@@ -106,7 +109,7 @@ void mystack::pop()
     stack_size = stack_size - 1;
 
 }
-
+//copies the linked list from the stack x to this object
 void mystack::clone(const mystack& x)
 {
 	int value = 0; 

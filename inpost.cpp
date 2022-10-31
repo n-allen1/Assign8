@@ -13,7 +13,7 @@
 #include "inpost.h"
 
 
-//includes definition.             //Same as assignment 8. 
+//Same as assignment 7. 
 std::string convert(const std::string& infix)
 {
     std::string postfix;
@@ -84,7 +84,7 @@ std::string convert(const std::string& infix)
             index++;
         }
     }
-        //wrap up the loose ends
+    //wrap up the loose ends
     while(!s.empty())
     {
         postfix += s.top();
@@ -100,23 +100,22 @@ std::string convert(const std::string& infix)
  int precedence(char op)
  {
  
-         switch (op)
-         {
-                 case '~':
-                 case '^':
-                    return 3;
-                    break;
-                 case '*':
-                 case '/':
-                     return 2;
-                     break;;
-                 case '+':
-                 case '-':
-                     return 1;
-                     break;
-                 default:
-                     return 0;
- 
-         }
+    switch (op)
+    {
+        case '~':
+        case '^':
+            return 3;
+            break;
+        case '*':
+        case '/':
+            return 2;
+            break;;
+        case '+':
+        case '-':
+            return 1;
+            break;
+        default:
+            return 0;
+    }
  
  }
